@@ -10,8 +10,6 @@ import com.google.firebase.database.*
 
 class FavoriteActivity : AppCompatActivity() {
 
-    private var mGenre = 0
-
     private lateinit var mDatabaseReference: DatabaseReference
     private lateinit var mListView: ListView
     private lateinit var mQuestionArrayList: ArrayList<Question>
@@ -83,7 +81,7 @@ class FavoriteActivity : AppCompatActivity() {
                                 }
                             }
                             val question = Question(title, body, name, uid, dataSnapshot.key ?: "",
-                                mGenre, bytes, answerArrayList)
+                                Integer.parseInt(ds.value.toString()), bytes, answerArrayList)
                             mQuestionArrayList.add(question)
                             mAdapter.notifyDataSetChanged()
                         }

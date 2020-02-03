@@ -225,6 +225,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mGenreRef = mDatabaseReference.child(ContentsPATH).child(mGenre.toString())
             mGenreRef!!.addChildEventListener(mEventListener)
         } else {
+            val navigationView = findViewById<NavigationView>(R.id.nav_view)
+            onNavigationItemSelected(navigationView.menu.getItem(mGenre - 1))
             val intent = Intent(applicationContext, FavoriteActivity::class.java)
             startActivity(intent)
         }
