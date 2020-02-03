@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -114,9 +115,11 @@ class QuestionDetailActivity : AppCompatActivity() {
         mAdapter.notifyDataSetChanged()
 
         user = FirebaseAuth.getInstance().currentUser
-        favoriteState  = FirebaseDatabase.getInstance().reference.child(FavoritesPATH).child(user!!.uid).child(mQuestion.questionUid)
         if(user != null){
+            favoriteState  = FirebaseDatabase.getInstance().reference.child(FavoritesPATH).child(user!!.uid).child(mQuestion.questionUid)
             favoriteState.addListenerForSingleValueEvent(mInitFavorite)
+        } else {
+            favorite.hide()
         }
 
         fab.setOnClickListener {
@@ -140,6 +143,18 @@ class QuestionDetailActivity : AppCompatActivity() {
         val dataBaseReference = FirebaseDatabase.getInstance().reference
         mAnswerRef = dataBaseReference.child(ContentsPATH).child(mQuestion.genre.toString()).child(mQuestion.questionUid).child(AnswersPATH)
         mAnswerRef.addChildEventListener(mEventListener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        user = FirebaseAuth.getInstance().currentUser
+        if(user != null){
+            favoriteState  = FirebaseDatabase.getInstance().reference.child(FavoritesPATH).child(user!!.uid).child(mQuestion.questionUid)
+            favoriteState.addListenerForSingleValueEvent(mInitFavorite)
+        } else {
+            favorite.hide()
+        }
     }
 
 }
